@@ -24,6 +24,16 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    @classmethod
+    def check_username(cls, username):
+        return User.\
+            query.filter_by(username=username).first() is None
+
+    @classmethod
+    def check_email(cls, email):
+        return User. \
+                   query.filter_by(email=email).first() is None
+
 
 @login.user_loader
 def load_user(id):
