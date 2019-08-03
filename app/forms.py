@@ -15,16 +15,16 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = StringField('Password', validators=[DataRequired()])
-    password2 = StringField(
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField(
         'Repeat Password',
         validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
 
     def validate_username(self, username):
-        if User.check_username(username.data):
+        if not User.check_username(username.data):
             raise ValidationError("Please use a different Username")
 
     def validate_email(self, email):
-        if User.check_email(email.data):
+        if not User.check_email(email.data):
             raise ValidationError("Please use a different Email")
